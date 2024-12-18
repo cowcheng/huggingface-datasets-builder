@@ -39,7 +39,7 @@ class DatasetConfig(BaseModel):
 
     @model_validator(mode="after")
     def validate_columns_consistency(
-        self,
+        cls,
     ) -> "DatasetConfig":
         """
         Validates that all columns in dataframe_order have specified cast types.
@@ -50,7 +50,7 @@ class DatasetConfig(BaseModel):
         Raises:
             ValueError: If any column in dataframe_order is missing from cast_columns.
         """
-        missing_columns = set(self.dataframe_order) - set(self.cast_columns)
+        missing_columns = set(cls.dataframe_order) - set(cls.cast_columns)
 
         if missing_columns:
             raise ValueError(
@@ -58,7 +58,7 @@ class DatasetConfig(BaseModel):
                 f"{', '.join(sorted(missing_columns))}. "
                 "Please add these columns to cast_columns with appropriate types."
             )
-        return self
+        return cls
 
 
 class HuggingFaceConfig(BaseModel):
