@@ -21,7 +21,7 @@ dataset:
   split: "data"
 
 huggingface:
-  repo_id: "gtomato/test"
+  repo_id: "cowcheng/test"
   config_name: "cantonese"
   commit_message: "create dataset"
   private: true
