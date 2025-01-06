@@ -1,7 +1,6 @@
 from typing import Dict, List
 
 from pydantic import BaseModel, Field, model_validator
-from typing_extensions import Self
 
 
 class DatasetConfig(BaseModel):
