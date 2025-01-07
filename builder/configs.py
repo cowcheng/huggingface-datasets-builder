@@ -5,31 +5,16 @@ from pydantic import BaseModel, Field, model_validator
 
 class DatasetConfig(BaseModel):
     """
-    Configuration for dataset processing and validation.
+    Configuration class for dataset processing and validation.
 
-    This class defines the structure and requirements for processing a dataset,
-    including file paths, column ordering, and data type casting specifications.
+    This class handles dataset configuration including annotation file paths,
+    column ordering, data type casting, and dataset split information.
 
     Attributes:
-        annotation_path (str): Path to the CSV file containing dataset annotations.
-        dataframe_order (List[str]): Ordered list of column names defining the expected
-            structure of the dataframe. This order will be maintained during processing.
-        cast_columns (Dict[str, str]): Mapping of column names to their desired data types.
-            For example: {"column_name": "int64", "another_column": "string"}.
-        split (str): Dataset split identifier (e.g., "train", "validation", "test").
-
-    Example:
-        ```python
-        config = DatasetConfig(
-            annotation_path="path/to/annotations.csv",
-            dataframe_order=["id", "text", "label"],
-            cast_columns={"id": "int64", "text": "string", "label": "int32"},
-            split="train"
-        )
-        ```
-
-    Raises:
-        ValueError: If any column specified in dataframe_order is missing from cast_columns.
+        annotation_path (str): Path to the CSV file containing annotations
+        dataframe_order (List[str]): Ordered list specifying column arrangement
+        cast_columns (Dict[str, str]): Mapping of column names to their target data types
+        split (str): Dataset partition identifier (e.g., 'train', 'test', 'val')
     """
 
     annotation_path: str = Field(description="Path to annotation CSV file")
@@ -42,13 +27,13 @@ class DatasetConfig(BaseModel):
         self,
     ) -> "DatasetConfig":
         """
-        Validates that all columns in dataframe_order have specified cast types.
+        Validates that all columns specified in dataframe_order have casting types defined.
 
         Returns:
-            DatasetConfig: The validated configuration object.
+            DatasetConfig: Self reference if validation passes
 
         Raises:
-            ValueError: If any column in dataframe_order is missing from cast_columns.
+            ValueError: If any column in dataframe_order lacks a casting type definition
         """
         missing_columns = set(self.dataframe_order) - set(self.cast_columns)
 
@@ -63,29 +48,18 @@ class DatasetConfig(BaseModel):
 
 class HuggingFaceConfig(BaseModel):
     """
-    Configuration for Hugging Face repository interaction.
+    Configuration class for Hugging Face repository settings.
 
-    This class defines the parameters needed to interact with a Hugging Face repository,
-    including repository identification, configuration, and access settings.
+    This class manages configuration parameters for interacting with
+    Hugging Face repositories, including repository identification,
+    versioning, and access control.
 
     Attributes:
-        repo_id (str): The Hugging Face repository identifier in the format "username/repo-name"
-            or "organization/repo-name".
-        config_name (str): Name of the configuration to be used within the repository.
-        commit_message (str): Message to be used when committing changes to the repository.
-        private (bool): Whether the repository should be private (True) or public (False).
-        revision (str): The specific revision or branch name to target in the repository.
-
-    Example:
-        ```python
-        config = HuggingFaceConfig(
-            repo_id="username/dataset-name",
-            config_name="default",
-            commit_message="Update dataset configuration",
-            private=True,
-            revision="main"
-        )
-        ```
+        repo_id (str): Identifier for the Hugging Face repository
+        config_name (str): Name of the configuration to use
+        commit_message (str): Message to use when committing changes
+        private (bool): Whether the repository should be private
+        revision (str): Branch or revision identifier
     """
 
     repo_id: str = Field(description="Hugging Face repository ID")
@@ -97,34 +71,14 @@ class HuggingFaceConfig(BaseModel):
 
 class Config(BaseModel):
     """
-    Main configuration class combining dataset and Hugging Face settings.
+    Root configuration class combining dataset and Hugging Face settings.
 
-    This class serves as the top-level configuration container, combining both
-    dataset-specific settings and Hugging Face repository configurations into a
-    single, validated configuration object.
+    This class serves as the top-level configuration container, combining
+    both dataset processing settings and Hugging Face repository configuration.
 
     Attributes:
-        dataset (DatasetConfig): Configuration for dataset processing and validation.
-        huggingface (HuggingFaceConfig): Configuration for Hugging Face repository interaction.
-
-    Example:
-        ```python
-        config = Config(
-            dataset=DatasetConfig(
-                annotation_path="path/to/annotations.csv",
-                dataframe_order=["id", "text", "label"],
-                cast_columns={"id": "int64", "text": "string", "label": "int32"},
-                split="train"
-            ),
-            huggingface=HuggingFaceConfig(
-                repo_id="username/dataset-name",
-                config_name="default",
-                commit_message="Update dataset",
-                private=True,
-                revision="main"
-            )
-        )
-        ```
+        dataset (DatasetConfig): Configuration for dataset processing
+        huggingface (HuggingFaceConfig): Configuration for Hugging Face integration
     """
 
     dataset: DatasetConfig = Field(description="Dataset configuration")

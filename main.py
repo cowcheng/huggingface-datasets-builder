@@ -13,32 +13,17 @@ def prepare_dataframe(
     config: Config,
 ) -> pd.DataFrame:
     """
-    Load and prepare a pandas DataFrame from a CSV file according to configuration.
-
-    Reads the CSV file specified in the configuration and reorders columns according
-    to the defined order in the configuration.
+    Load and prepare DataFrame from CSV according to configuration.
 
     Args:
-        config (Config): Configuration object containing dataset settings including
-            the path to the CSV file and the desired column order.
+        config (Config): Configuration object containing dataset settings
 
     Returns:
-        pd.DataFrame: Prepared DataFrame with columns ordered according to configuration.
+        pd.DataFrame: Loaded and reordered DataFrame according to config
 
     Raises:
-        FileNotFoundError: If the specified CSV file does not exist.
-        KeyError: If any column specified in the configuration is missing from the CSV.
-
-    Example:
-        ```python
-        config = Config(
-            dataset=DatasetConfig(
-                annotation_path="path/to/data.csv",
-                dataframe_order=["id", "text", "label"]
-            )
-        )
-        df = prepare_dataframe(config)
-        ```
+        FileNotFoundError: If annotation CSV file cannot be found
+        KeyError: If specified columns are missing from the CSV
     """
     try:
         dataframe = pd.read_csv(filepath_or_buffer=config.dataset.annotation_path)
@@ -58,33 +43,18 @@ def cast_dataset_columns(
     cast_columns: Dict[str, str],
 ) -> Dataset:
     """
-    Cast dataset columns to specified feature types.
-
-    Processes each column in the dataset according to the casting configuration,
-    converting them to the appropriate feature types (e.g., audio, image, video).
-    String columns are skipped as they don't need casting.
+    Cast dataset columns to their specified feature types.
 
     Args:
-        dataset (Dataset): The Hugging Face dataset to process.
-        cast_columns (Dict[str, str]): Mapping of column names to their target
-            feature types. Valid types are defined in DATA_TYPE_MAP.
+        dataset (Dataset): Hugging Face dataset to modify
+        cast_columns (Dict[str, str]): Mapping of column names to target feature types
 
     Returns:
-        Dataset: The processed dataset with columns cast to their specified types.
+        Dataset: Modified dataset with cast columns
 
     Raises:
-        KeyError: If an unknown feature type is specified in cast_columns.
-        Exception: If column casting fails for any other reason.
-
-    Example:
-        ```python
-        cast_config = {
-            "image_path": "image",
-            "audio_path": "audio",
-            "text": "str"
-        }
-        dataset = cast_dataset_columns(dataset, cast_config)
-        ```
+        KeyError: If specified feature type is not supported
+        Exception: For other casting failures
     """
     for column, feature_type in cast_columns.items():
         if feature_type == "str":
@@ -111,29 +81,14 @@ def push_to_huggingface(
     config: Config,
 ) -> None:
     """
-    Upload a dataset to the Hugging Face Hub.
-
-    Pushes the processed dataset to the Hugging Face Hub with specified
-    configuration settings. The dataset is automatically sharded into 1GB chunks
-    and external files (like images or audio) are embedded.
+    Upload dataset to Hugging Face Hub with specified configuration.
 
     Args:
-        datasets_dict (DatasetDict): The dataset dictionary to upload, typically
-            containing splits like 'train', 'validation', etc.
-        config (Config): Configuration object containing Hugging Face-specific
-            settings like repository ID and privacy status.
+        datasets_dict (DatasetDict): Dataset dictionary to upload
+        config (Config): Configuration containing Hugging Face settings
 
     Raises:
-        Exception: If the upload process fails for any reason.
-
-    Example:
-        ```python
-        datasets_dict = DatasetDict({
-            "train": train_dataset,
-            "validation": val_dataset
-        })
-        push_to_huggingface(datasets_dict, config)
-        ```
+        Exception: If upload fails for any reason
     """
     try:
         datasets_dict.push_to_hub(
@@ -155,30 +110,19 @@ def create(
     config_path: Path,
 ) -> None:
     """
-    Create and upload a dataset to Hugging Face Hub from a configuration file.
+    Create and upload a dataset to Hugging Face Hub from configuration.
 
-    This is the main orchestration function that handles the entire dataset
-    creation and upload process. It performs the following steps:
-    1. Loads and validates the configuration
-    2. Prepares the dataset from the source CSV
-    3. Casts columns to their specified types
-    4. Uploads the processed dataset to Hugging Face Hub
+    Main workflow function that:
+    1. Loads and validates configuration
+    2. Prepares dataset from CSV
+    3. Casts columns to appropriate types
+    4. Uploads to Hugging Face Hub
 
     Args:
-        config_path (Path): Path to the YAML configuration file containing all
-            necessary settings for dataset creation and upload.
+        config_path (Path): Path to YAML configuration file
 
     Raises:
-        Exception: If any step in the dataset creation process fails.
-            The specific exception type depends on the failing step.
-
-    Example:
-        ```python
-        try:
-            create(Path("config.yaml"))
-        except Exception as e:
-            print(f"Dataset creation failed: {e}")
-        ```
+        Exception: For any failure in the dataset creation pipeline
     """
     try:
         # Load and validate configuration
@@ -209,6 +153,15 @@ def create(
 
 
 if __name__ == "__main__":
+    """
+    Hugging Face Dataset Builder script.
+
+    Creates and uploads datasets to Hugging Face Hub based on YAML configuration.
+    Handles data loading, column casting, and dataset uploading with error logging.
+
+    Usage:
+        python script.py -c config.yaml
+    """
     try:
         args = parse_args()
         create(config_path=args.config_path)

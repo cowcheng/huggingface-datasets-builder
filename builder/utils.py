@@ -7,12 +7,10 @@ import yaml
 from yaml.error import YAMLError
 
 """
-Configure logging with a standardized format including timestamp, logger name,
-log level, and message. The datetime format is set to ISO-like format for
-better readability and parsing.
+Configure basic logging settings for the application.
 
-Format example:
-2024-12-17 14:30:45 - HuggingFace-Dataset-Builder - INFO - Starting dataset upload
+Sets up logging with timestamp, logger name, level and message format.
+Default level is set to INFO for general execution logging.
 """
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -21,31 +19,18 @@ logging.basicConfig(
 )
 
 """
-Create a logger instance specific to the HuggingFace Dataset Builder
-This logger will be used throughout the application to maintain consistent
-logging practices and make log filtering easier
+Logger instance for the Hugging Face Dataset Builder application.
 """
 logger = logging.getLogger(name="HuggingFace-Dataset-Builder")
 
 
 def parse_args() -> Namespace:
     """
-    Parse command-line arguments for the dataset builder script.
-
-    Creates an argument parser with options for configuring the dataset
-    building process. Currently supports specifying the path to a
-    configuration file.
+    Parse command line arguments for the dataset builder.
 
     Returns:
-        Namespace: An object containing the parsed command-line arguments.
-            Attributes:
-                config_path (Path): Path to the configuration YAML file.
-
-    Example:
-        ```python
-        args = parse_args()
-        config = read_yaml(args.config_path)
-        ```
+        Namespace: Parsed argument object containing:
+            config_path (Path): Path to the YAML configuration file
     """
     parser = ArgumentParser(description="Create and upload a dataset to Hugging Face.")
     parser.add_argument(
@@ -64,31 +49,17 @@ def read_yaml(
     """
     Read and parse a YAML configuration file.
 
-    Attempts to read and parse a YAML file from the specified path, with
-    comprehensive error handling for common failure scenarios.
-
     Args:
-        yaml_path (Path): Path to the YAML file to be read.
+        yaml_path (Path): Path to the YAML file to read
 
     Returns:
-        Dict[str, Any]: The parsed YAML content as a dictionary.
+        Dict[str, Any]: Parsed YAML content as a dictionary
 
     Raises:
-        FileNotFoundError: If the specified YAML file does not exist.
-        YAMLError: If the YAML file cannot be parsed due to syntax errors.
-        PermissionError: If the process lacks permission to read the file.
-        Exception: For any other unexpected errors during file reading.
-
-    Example:
-        ```python
-        try:
-            config = read_yaml(Path("config.yaml"))
-            dataset_name = config["dataset"]["name"]
-        except FileNotFoundError:
-            logger.error("Config file not found")
-        except YAMLError:
-            logger.error("Invalid YAML syntax in config file")
-        ```
+        FileNotFoundError: If the specified file doesn't exist
+        YAMLError: If the YAML file is malformed
+        PermissionError: If there are insufficient permissions to read the file
+        Exception: For other unexpected errors during file reading/parsing
     """
     try:
         yaml_path = Path(yaml_path)
