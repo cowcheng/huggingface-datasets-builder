@@ -1,4 +1,4 @@
-# 🤖 Hugging Face Dataset Tool
+# 🤖 HuggingFace Datasets Builder
 
 An all-in-one solution for efficiently creating, managing, and uploading datasets to the Hugging Face Hub. Designed with robust support for audio datasets, it simplifies metadata handling and ensures seamless integration with diverse dataset formats.
 
@@ -82,6 +82,6 @@ This project is licensed under the MIT License.
 
 ## 🙌 Acknowledgments
 
-Special thanks to the Hugging Face team and the open-source community for their amazing tools and resources.
+Special thanks to the open-source community for their amazing tools and resources.
 
 > For more information, visit the Hugging Face Hub.
