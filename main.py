@@ -26,7 +26,11 @@ def prepare_dataframe(
         KeyError: If specified columns are missing from the CSV
     """
     try:
-        dataframe = pd.read_csv(filepath_or_buffer=config.dataset.annotation_path)
+        dataframe = pd.read_csv(
+            filepath_or_buffer=config.dataset.annotation_path,
+            sep="\t",
+            low_memory=False,
+        )
         dataframe = dataframe[config.dataset.dataframe_order]
         logger.info(msg=f"Loaded dataframe with shape: {dataframe.shape}")
         return dataframe
