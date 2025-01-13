@@ -36,7 +36,7 @@ Before running the tool, ensure you have a properly configured config.yaml file.
 ```yaml
 # Dataset configuration
 dataset:
-  annotation_path: "./google_fleurs_v1/cantonese.csv" # Path to the annotation CSV file
+  annotation_path: "./google_fleurs_v1/cantonese.tsv" # Path to the annotation TSV file
   dataframe_order: # Order of columns in the dataset
     - "id"
     - "audio"

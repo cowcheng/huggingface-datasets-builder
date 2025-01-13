@@ -13,7 +13,7 @@ def prepare_dataframe(
     config: Config,
 ) -> pd.DataFrame:
     """
-    Load and prepare DataFrame from CSV according to configuration.
+    Load and prepare DataFrame from TSV according to configuration.
 
     Args:
         config (Config): Configuration object containing dataset settings
@@ -22,8 +22,8 @@ def prepare_dataframe(
         pd.DataFrame: Loaded and reordered DataFrame according to config
 
     Raises:
-        FileNotFoundError: If annotation CSV file cannot be found
-        KeyError: If specified columns are missing from the CSV
+        FileNotFoundError: If annotation TSV file cannot be found
+        KeyError: If specified columns are missing from the TSV
     """
     try:
         dataframe = pd.read_csv(
@@ -35,10 +35,10 @@ def prepare_dataframe(
         logger.info(msg=f"Loaded dataframe with shape: {dataframe.shape}")
         return dataframe
     except FileNotFoundError:
-        logger.error(msg=f"CSV file not found: {config.dataset.annotation_path}")
+        logger.error(msg=f"TSV file not found: {config.dataset.annotation_path}")
         raise
     except KeyError as e:
-        logger.error(msg=f"Missing column in CSV: {e}")
+        logger.error(msg=f"Missing column in TSV: {e}")
         raise
 
 
@@ -118,7 +118,7 @@ def create(
 
     Main workflow function that:
     1. Loads and validates configuration
-    2. Prepares dataset from CSV
+    2. Prepares dataset from TSV
     3. Casts columns to appropriate types
     4. Uploads to Hugging Face Hub
 

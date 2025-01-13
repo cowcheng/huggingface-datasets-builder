@@ -11,13 +11,13 @@ class DatasetConfig(BaseModel):
     column ordering, data type casting, and dataset split information.
 
     Attributes:
-        annotation_path (str): Path to the CSV file containing annotations
+        annotation_path (str): Path to the TSV file containing annotations
         dataframe_order (List[str]): Ordered list specifying column arrangement
         cast_columns (Dict[str, str]): Mapping of column names to their target data types
         split (str): Dataset partition identifier (e.g., 'train', 'test', 'val')
     """
 
-    annotation_path: str = Field(description="Path to annotation CSV file")
+    annotation_path: str = Field(description="Path to annotation TSV file")
     dataframe_order: List[str] = Field(description="Order of columns in the dataframe")
     cast_columns: Dict[str, str] = Field(description="Column casting configuration")
     split: str = Field(description="Dataset split name")

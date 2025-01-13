@@ -1,5 +1,5 @@
 dataset:
-  annotation_path: "./google_fleurs_v1/cantonese.csv"
+  annotation_path: "./google_fleurs_v1/cantonese.tsv"
   dataframe_order:
     - "id"
     - "audio"
