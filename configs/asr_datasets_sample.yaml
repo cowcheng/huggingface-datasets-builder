@@ -1,0 +1,27 @@
+dataset:
+  annotation_path: "./common_voice/cantonese.tsv"
+  dataframe_order:
+    - "id"
+    - "audio"
+    - "raw_transcription"
+    - "num_samples"
+    - "gender"
+    - "lang_id"
+    - "language"
+    - "lang_group_id"
+  cast_columns:
+    id: "str"
+    audio: "audio"
+    raw_transcription: "str"
+    num_samples: "str"
+    gender: "str"
+    lang_id: "str"
+    language: "str"
+    lang_group_id: "str"
+  split: "data"
+
+huggingface:
+  repo_id: "cowcheng/test"
+  config_name: "cantonese"
+  commit_message: "create dataset"
+  private: true
