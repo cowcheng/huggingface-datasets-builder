@@ -25,8 +25,6 @@ def create(
     )
     dataframe = dataframe[configs.dataset.dataframe_order]
     dataset = Dataset.from_pandas(df=dataframe)
-    logger.info(msg=f"Dataset: {dataset}")
-
     for column, feature_type in configs.dataset.cast_columns.items():
         if feature_type == "str":
             continue
@@ -35,7 +33,7 @@ def create(
             column=column,
             feature=feature,
         )
-    logger.info(msg=f"Dataset after casting columns: {dataset}")
+    logger.info(msg=f"Dataset: {dataset}")
 
     datasets_dict = DatasetDict({configs.dataset.split: dataset})
     datasets_dict.push_to_hub(
