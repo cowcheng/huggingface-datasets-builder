@@ -1,0 +1,2 @@
+datasets[audio]==3.2.0
+pydantic==2.10.6
