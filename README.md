@@ -1,17 +1,15 @@
-# 🤖 HuggingFace Datasets Builder
+# 📂 HuggingFace Datasets Builder
 
-A robust and user-friendly tool for creating, managing, and uploading datasets to the Hugging Face Hub. Designed with seamless support for audio datasets, it simplifies metadata handling and ensures compatibility with various dataset formats, streamlining data preparation.
+A powerful and intuitive tool designed to simplify the creation, management, and uploading of datasets to the Hugging Face Hub. With support for various data types including text, audio, and in the future, images and videos, it automates metadata handling and ensures compatibility across multiple dataset formats, making data preparation more efficient.
 
-## 🚀 Features
+## 🔄 Features
 
-- **Universal Format Support**: Seamlessly handle text and audio datasets with built-in adaptability.
-  > Future updates will include support for images and videos.
-- **Automated Data Transformation**: Convert raw data into Hugging Face-compatible datasets without manual intervention.
-- **Effortless Hub Integration**: Instantly upload datasets to the Hugging Face Hub with a single command.
-- **Dynamic Metadata Handling**: Easily manage and customize dataset fields, including audio, transcriptions, and metadata.
-- **YAML-Based Configuration**: Modify dataset settings and upload parameters effortlessly using a structured configuration file.
+- **Versatile Data Handling**: Seamlessly supports text, audio, and upcoming support for images and videos.
+- **One-Command Hub Upload**: Upload datasets instantly to the Hugging Face Hub with a single command.
+- **Flexible Metadata Management**: Easily structure and modify dataset fields, including various metadata types.
+- **Config-Driven Customization**: Leverage a YAML-based configuration for streamlined dataset and upload settings.
 
-## 📋 Requirements
+## 🛠️ Requirements
 
 - **Python 3.11+**
 
@@ -28,11 +26,11 @@ pip install -U pip wheel setuptools
 pip install -r requirements.txt
 ```
 
-## 🛠️ Usage
+## 📑 Usage
 
-### 📝 Configuration File
+### 🗃️ Configuration File
 
-Before running the tool, ensure you have a properly configured `configs.yaml` file. Example configuration:
+Before running the tool, ensure you have a properly configured configs.yaml file. Refer to the sample configuration file located at configs/asr_datasets_sample.yaml. Example configuration:
 
 ```yaml
 # Dataset configurations
@@ -66,21 +64,21 @@ huggingface:
   private: true # Whether the dataset is private
 ```
 
-### 📂 Running the Tool
+### 💡 Running the Tool
 
 ```bash
 python main.py -c configs.yaml
 ```
 
-## 🤝 Contributing
+## 👨‍💻 Contributing
 
 Contributions are welcome! Fork the repository, create a branch, and submit a pull request.
 
-## 📜 License
+## 📚 License
 
 This project is licensed under the MIT License.
 
-## 🙌 Acknowledgments
+## 🎉 Acknowledgments
 
 Special thanks to the open-source community for their invaluable tools and resources.
 
