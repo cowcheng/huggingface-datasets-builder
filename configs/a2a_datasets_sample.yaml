@@ -1,0 +1,15 @@
+dataset:
+  annotation_path: "./ElevenLabs_Myriam_sweet-Teen-Girl/ElevenLabs_Myriam_sweet-Teen-Girl.tsv"
+  dataframe_order:
+    - "id"
+    - "audio"
+  cast_columns:
+    id: "str"
+    audio: "audio"
+  split: "ElevenLabs_Myriam_sweet-Teen-Girl"
+
+huggingface:
+  repo_id: "cowcheng/elevenlabs"
+  config_name: "cantonese"
+  commit_message: "create dataset"
+  private: true
